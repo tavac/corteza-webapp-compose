@@ -5,16 +5,35 @@
     <c-toaster
       :toasts="toasts"
     />
-    <div class="d-none d-md-block">
-      <namespace-sidebar
-        :namespaces="enabledNamespaces"
-        v-if="showNamespaceSidebar"
-        :namespace="namespace"
-        :visible.sync="nsSbVisible"
+
+    <namespace-sidebar
+      :namespaces="enabledNamespaces"
+      :pages="pagesClean"
+      :page="undefined"
+      :namespace="namespace"
+      :tiny-nav="tinyNav"
+
+      :super-special="true"
+    />
+
+    <!-- These two things provide some padding for the sidenav. -->
+    <template>
+      <div
+        class="d-block d-xl-none"
+        v-b-visible="setTinyNav"
+        style="margin-left: 80px"
       />
-    </div>
+      <div
+        class="d-none d-xl-block"
+        style="margin-left: 320px"
+      />
+    </template>
+
     <router-view
       v-if="loaded && namespace"
+      :class="{
+        'displace': tinyNav,
+      }"
       :namespace="namespace"
     />
     <div
@@ -64,7 +83,7 @@
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 import NamespaceSidebar from '../components/Namespaces/NamespaceSidebar'
-import { compose } from '@cortezaproject/corteza-js'
+import { compose, NoID } from '@cortezaproject/corteza-js'
 import { components } from '@cortezaproject/corteza-vue'
 const { CPermissionsModal, CToaster } = components
 
@@ -86,7 +105,7 @@ export default {
 
   data () {
     return {
-      nsSbVisible: this.$s('compose.UI.NamespaceSwitcher.DefaultOpen', false),
+      // nsSbVisible: this.$s('compose.UI.NamespaceSwitcher.DefaultOpen', false),
       loaded: false,
 
       error: '',
@@ -94,6 +113,8 @@ export default {
       namespace: null,
       namespaces: [],
       toasts: [],
+
+      tinyNav: false,
     }
   },
 
@@ -103,6 +124,7 @@ export default {
       modulePending: 'module/pending',
       chartPending: 'chart/pending',
       pagePending: 'page/pending',
+      pages: 'page/set',
     }),
 
     parts () {
@@ -125,6 +147,10 @@ export default {
 
     showNamespaceSidebar () {
       return this.$s('compose.UI.NamespaceSwitcher.Enabled', false) && this.enabledNamespaces.length > 1
+    },
+
+    pagesClean () {
+      return this.pages.filter(({ moduleID, visible }) => visible && moduleID === NoID)
     },
   },
 
@@ -204,6 +230,10 @@ export default {
   },
 
   methods: {
+    setTinyNav (yes) {
+      this.tinyNav = yes
+    },
+
     async namespaceLoader () {
       return this.$ComposeAPI.namespaceList().then(({ set }) => {
         this.namespaces = set.map(ns => new compose.Namespace(ns))
@@ -318,6 +348,10 @@ export default {
   height: 20vh;
   padding: 60px;
   top: 40vh;
+}
+
+.displace {
+  margin-top: 70px;
 }
 </style>
 

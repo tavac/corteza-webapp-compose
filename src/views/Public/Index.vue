@@ -1,10 +1,5 @@
 <template>
   <div class="d-flex flex-column w-100 vh-100">
-    <public-header
-      :page="page"
-      :namespace="namespace"
-      @toggleNav="navVisible = $event"
-    />
     <div v-if="showSteps" class="d-flex flex-column m-5 vh-75">
       <h1 class="display-3">{{ $t('general.label.welcome') }}</h1>
       <p class="lead">
@@ -77,7 +72,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import PublicHeader from 'corteza-webapp-compose/src/components/Public/Header'
 import CircleStep from 'corteza-webapp-compose/src/components/Common/CircleStep'
 import { compose } from '@cortezaproject/corteza-js'
 
@@ -88,7 +82,6 @@ export default {
   name: 'public-root',
 
   components: {
-    PublicHeader,
     CircleStep,
   },
 

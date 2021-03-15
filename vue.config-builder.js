@@ -108,11 +108,6 @@ module.exports = ({ appFlavour, appName, appLabel, version = process.env.BUILD_V
       hot: true,
       disableHostCheck: true,
 
-      overlay: {
-        warnings: true,
-        errors: true,
-      },
-
       watchOptions: {
         ignored: [
           // Do not watch for changes under node_modules

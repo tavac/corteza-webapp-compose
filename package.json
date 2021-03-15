@@ -16,9 +16,7 @@
     "storybook": "start-storybook",
     "cdeps": "yarn upgrade @cortezaproject/corteza-js @cortezaproject/corteza-vue"
   },
-  "gitHooks": {
-    "pre-commit": "yarn lint"
-  },
+  "gitHooks": {},
   "stylelint": {
     "plugins": [
       "stylelint-scss"
@@ -47,7 +45,7 @@
     "@panter/vue-i18next": "^0.15.0",
     "@popperjs/core": "^2.4.0",
     "axios": "^0.21.1",
-    "bootstrap-vue": "^2.3.0",
+    "bootstrap-vue": "^2.21.2",
     "c3": "^0.7.12",
     "chart.js": "2.9.3",
     "chartjs-gauge": "^0.1.2",
