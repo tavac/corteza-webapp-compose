@@ -33,7 +33,16 @@
         >
           {{ $t('general.label.clone') }}
         </b-button>
-
+        <b-button
+          v-if="!inEditing"
+          :disabled="!module.canUpdateRecord"
+          variant="light"
+          size="lg"
+          class="mx-1"
+          @click.prevent="$emit('edit')"
+        >
+          {{ $t('general.label.edit') }}
+        </b-button>
         <b-button
           v-if="module.canCreateRecord && !hideAdd"
           variant="light"
