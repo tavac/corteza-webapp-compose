@@ -17,7 +17,7 @@
 
     <div
       v-if="superSpecial && expanded"
-      class="backdrop"
+      class="position-fixed backdrop vh-100"
       @click="expanded=false"
     />
 
@@ -29,7 +29,7 @@
       }"
     >
 
-      <header>
+      <header class="position-sticky fixed-top">
         <b-container
           fluid
           class="bg-light pt-4"
@@ -62,8 +62,10 @@
                 @option:selected="$router.push({ name: 'namespace', params: { slug: $event.slug } })"
               >
                 <template #list-footer>
-                  <router-link :to="{ name: 'namespace.create' }">
-                    + Add New#
+                  <router-link :to="{ name: 'namespace.create' }"
+                               class="mt-3 ml-3 mb-1 font-weight-bold d-block"
+                  >
+                    {{ $t('sidebar.createNS') }}
                   </router-link>
                 </template>
               </vue-select>
@@ -91,18 +93,17 @@
         class="header-delimiter bg-light"
       />
 
-      <div class="body px-3 py-2">
-        <sidebar-nav-item
-          v-if="!tiny || superSpecial"
-          :items="navItems"
-          :start-expanded="!!query"
-          top-level
-          @page-selected="onPageSelected"
-        />
-      </div>
+      <sidebar-nav-item
+        v-if="!tiny || superSpecial"
+        :items="navItems"
+        :start-expanded="!!query"
+        top-level
+        @page-selected="onPageSelected"
+        class="overflow-auto h-100"
+      />
 
       <!-- Footer -->
-      <footer>
+      <footer class="position-sticky fixed-bottom bg-white">
         <b-container
           fluid
         >
@@ -289,7 +290,6 @@ export default {
 
 .backdrop {
   background-color: #1e1e1eA5;
-  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -352,7 +352,6 @@ nav {
   footer {
     flex-grow: 0;
   }
-
 }
 
 .logo-ph {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="centering-wrap inactive-area d-flex"
+    class="d-flex"
   >
     <c-toaster
       :toasts="toasts"
@@ -12,7 +12,6 @@
       :page="undefined"
       :namespace="namespace"
       :tiny-nav="tinyNav"
-
       :super-special="true"
     />
 
@@ -21,11 +20,11 @@
       <div
         class="d-block d-xl-none"
         v-b-visible="setTinyNav"
-        style="margin-left: 80px"
+        style="margin-left: 80px;"
       />
       <div
         class="d-none d-xl-block"
-        style="margin-left: 320px"
+        style="margin-left: 320px;"
       />
     </template>
 

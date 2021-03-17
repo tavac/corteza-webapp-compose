@@ -1,31 +1,32 @@
 <template>
-  <div>
+  <div class="nav-sidebar">
     <b-btn
       v-for="(i) of items"
       :key="i.page.pageID"
       variant="link"
-      class="w-100 text-left"
-      :class="{
-        'py-2': topLevel,
-      }"
+      class="w-100 text-left text-dark text-decoration-none pt-2 pb-0 nav-item"
+      exact-active-class="nav-active"
       :to="{ name: 'page', params: { pageID: i.page.pageID }}"
       @click="$emit('page-selected')"
     >
-      {{ i.page.title }}
+      <span class="d-inline-block w-75 text-nowrap text-truncate">
+        {{ i.page.title }}
+      </span>
 
       <template
         v-if="i.children.length"
       >
         <b-btn
           variant="link"
+          class="px-3 float-right mt-n1"
           @click.self.stop.prevent="toggle(i.page)"
         >
-          <template v-if="!collapses[pageIndex(i.page)]">
-            (down)
-          </template>
-          <template v-else>
-            (up)
-          </template>
+          <font-awesome-icon v-if="!collapses[pageIndex(i.page)]"
+                             class="pointer-none"
+                             :icon="['fas', 'chevron-down']" />
+          <font-awesome-icon v-else
+                             class="pointer-none"
+                             :icon="['fas', 'chevron-up']" />
         </b-btn>
         <b-collapse
           :visible="collapses[pageIndex(i.page)]"
@@ -97,3 +98,14 @@ export default {
   },
 }
 </script>
+<style scoped lang="scss">
+// This has to be there, so chevrons are clickable inside the button
+.pointer-none {
+  pointer-events: none;
+}
+
+// Using font-weight-bold moves the sidebar nav content; text-stroke keeps in nicely in place
+.nav-active > span {
+  -webkit-text-stroke: 1px black;
+}
+</style>
