@@ -1,5 +1,5 @@
 <template>
-  <wrap v-bind="$props" v-on="$listeners">
+  <wrap v-bind="$props" v-on="$listeners" :scrollable-body="false">
     <div
       v-for="(m, i) in options.metrics"
       :key="i"
