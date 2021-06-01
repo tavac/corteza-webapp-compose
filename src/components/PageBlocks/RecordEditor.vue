@@ -138,7 +138,7 @@ export default {
     isFieldEditable (field) {
       return field &&
         field.canUpdateRecordValue &&
-        !field.isSystem &&
+        (!field.isSystem || field.name === 'ownedBy') &&
         !(
           field.expressions &&
           field.expressions.value
