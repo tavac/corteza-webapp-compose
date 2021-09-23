@@ -90,7 +90,7 @@
     </b-container>
     <tour
       ref="tour"
-      name="NamespaceList"
+      :tour= "tourSteps"
       :callbacks="{
         onPrevRedirect: () => this.$router.push({ name: 'namespaces' }),
         onNextRedirect: () => this.$router.push({ name: 'pages', params: { slug: (namespacesFiltered[0].slug || namespacesFiltered[0].namespaceID) } }),
@@ -102,6 +102,7 @@
 import { mapGetters } from 'vuex'
 import NamespaceItem from 'corteza-webapp-compose/src/components/Namespaces/NamespaceItem'
 import { components } from '@cortezaproject/corteza-vue'
+import NamespaceList from 'corteza-webapp-compose/src/tours/namespace-list'
 const { Tour } = components
 
 export default {
@@ -129,6 +130,10 @@ export default {
       namespaces: 'namespace/set',
       can: 'rbac/can',
     }),
+
+    tourSteps () {
+      return NamespaceList
+    },
 
     canGrant () {
       return this.can('compose/', 'grant')

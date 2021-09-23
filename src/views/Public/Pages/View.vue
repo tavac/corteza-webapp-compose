@@ -24,7 +24,7 @@
   </div>
     <tour
         ref="tour"
-        name="PageList"
+        :tour="tourSteps"
         :callbacks="{
           onPrevRedirect: () => this.$router.push({ name: 'namespaces' }),
           onNextRedirect: () => console.log('onNextRedirect'),
@@ -35,6 +35,7 @@
 <script>
 import Grid from 'corteza-webapp-compose/src/components/Public/Page/Grid'
 import AttachmentModal from 'corteza-webapp-compose/src/components/Public/Page/Attachment/Modal'
+import PageList from 'corteza-webapp-compose/src/tours/page-list'
 import { compose } from '@cortezaproject/corteza-js'
 import { components } from '@cortezaproject/corteza-vue'
 const { Tour } = components
@@ -68,6 +69,10 @@ export default {
   },
 
   computed: {
+    tourSteps () {
+      return PageList
+    },
+
     isRecordCreatePage () {
       return this.$route.name === 'page.record.create'
     },

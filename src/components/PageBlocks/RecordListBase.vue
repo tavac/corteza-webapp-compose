@@ -538,7 +538,7 @@
   </wrap>
   <tour
     ref="tour"
-    name="PageList"
+    :tour="tourSteps"
     :callbacks="{
       onPrevRedirect: () => this.$router.push({ name: 'namespaces' }),
       onNextRedirect: () => console.log('onNextRedirect'),
@@ -562,6 +562,7 @@ import { url, components } from '@cortezaproject/corteza-vue'
 import draggable from 'vuedraggable'
 import RecordListFilter from 'corteza-webapp-compose/src/components/Common/RecordListFilter'
 import ColumnPicker from 'corteza-webapp-compose/src/components/Admin/Module/Records/ColumnPicker'
+import PageList from 'corteza-webapp-compose/src/tours/page-list'
 
 const { Tour } = components
 
@@ -643,6 +644,10 @@ export default {
       getModuleByID: 'module/getByID',
       pages: 'page/set',
     }),
+
+    tourSteps () {
+      return PageList
+    },
 
     loaderCollSpan () {
       // 2 for right side actions
