@@ -19,8 +19,9 @@
           class="flex-grow-1"
         >
           <b-btn :to="{ name: 'namespace.create' }"
-                 variant="primary"
-                 size="lg"
+            variant="primary"
+            size="lg"
+            data-v-onboarding="namespace-list"
           >
               {{ $t('create') }}
           </b-btn>
@@ -87,11 +88,21 @@
         </b-col>
       </b-row>
     </b-container>
+    <tour
+      ref="tour"
+      name="NamespaceList"
+      :callbacks="{
+        onPrevRedirect: () => this.$router.push({ name: 'namespaces' }),
+        onNextRedirect: () => this.$router.push({ name: 'pages', params: { slug: (namespacesFiltered[0].slug || namespacesFiltered[0].namespaceID) } }),
+      }"
+    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import NamespaceItem from 'corteza-webapp-compose/src/components/Namespaces/NamespaceItem'
+import { components } from '@cortezaproject/corteza-vue'
+const { Tour } = components
 
 export default {
   i18nOptions: {
@@ -100,11 +111,16 @@ export default {
 
   components: {
     NamespaceItem,
+    Tour,
   },
 
   data () {
     return {
       query: '',
+      myCallbacks: {
+        // onPrevRedirect: () => console.log(this.$auth),
+        onNextRedirect: () => this.$router.push({ name: 'pages', params: { slug: (this.namespacesFiltered[0].slug || this.namespacesFiltered[0].namespaceID) } }),
+      },
     }
   },
 
@@ -124,6 +140,16 @@ export default {
 
     namespacesFiltered () {
       return this.namespaces.filter(ns => (ns.slug || ns.name).toLowerCase().indexOf(this.query.toLowerCase()) > -1)
+    },
+  },
+  created () {
+    this.$nextTick(() => {
+      this.startTour()
+    })
+  },
+  methods: {
+    startTour () {
+      this.$refs.tour.start()
     },
   },
 }

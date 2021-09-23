@@ -1,4 +1,5 @@
 <template>
+<div>
   <wrap v-if="recordListModule" v-bind="$props" v-on="$listeners" :scrollable-body="false">
     <template
       v-if="showHeader"
@@ -39,6 +40,7 @@
             <template v-if="!options.hideAddButton && recordListModule.canCreateRecord">
               <template v-if="inlineEditing">
                 <b-btn
+                data-v-onboarding="CRM"
                   variant="primary"
                   size="lg"
                   class="float-left mr-1"
@@ -50,6 +52,7 @@
 
               <template v-else-if="!inlineEditing && (recordPageID || options.allRecords)">
                 <router-link
+                data-v-onboarding="CRM"
                   class="btn btn-lg btn-primary float-left mr-1"
                   :to="{
                     name: options.rowCreateUrl || 'page.record.create',
@@ -533,6 +536,15 @@
       </b-container>
     </template>
   </wrap>
+  <tour
+    ref="tour"
+    name="PageList"
+    :callbacks="{
+      onPrevRedirect: () => this.$router.push({ name: 'namespaces' }),
+      onNextRedirect: () => console.log('onNextRedirect'),
+    }"
+  />
+</div>
 </template>
 <script>
 import { throttle } from 'lodash'
@@ -546,10 +558,12 @@ import AutomationButtons from './Shared/AutomationButtons'
 import { compose, validator, NoID } from '@cortezaproject/corteza-js'
 import users from 'corteza-webapp-compose/src/mixins/users'
 import { evaluatePrefilter, queryToFilter } from 'corteza-webapp-compose/src/lib/record-filter'
-import { url } from '@cortezaproject/corteza-vue'
+import { url, components } from '@cortezaproject/corteza-vue'
 import draggable from 'vuedraggable'
 import RecordListFilter from 'corteza-webapp-compose/src/components/Common/RecordListFilter'
 import ColumnPicker from 'corteza-webapp-compose/src/components/Admin/Module/Records/ColumnPicker'
+
+const { Tour } = components
 
 export default {
   i18nOptions: {
@@ -565,6 +579,7 @@ export default {
     draggable,
     RecordListFilter,
     ColumnPicker,
+    Tour,
   },
 
   extends: base,
@@ -792,6 +807,11 @@ export default {
   },
 
   methods: {
+
+    startTour () {
+      this.$refs.tour.start()
+    },
+
     onFilter (filter = []) {
       this.recordListFilter = filter
       this.refresh(true)
@@ -1205,6 +1225,7 @@ export default {
           this.fetchUsers(fields, records)
 
           this.items = records.map(r => this.wrapRecord(r))
+          this.startTour()
         })
         .catch(this.toastErrorHandler(this.$t('record.listLoadFailed')))
         .finally(() => {
