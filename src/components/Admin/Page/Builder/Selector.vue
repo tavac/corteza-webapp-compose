@@ -1,12 +1,10 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col
-        cols="4"
-      >
+      <b-col cols="4">
         <b-list-group>
           <b-list-group-item
-            v-for="(type) in types"
+            v-for="type in types"
             :key="type.label"
             :disabled="!recordPage && type.recordPageOnly"
             button
@@ -29,10 +27,8 @@
         />
       </b-col>
     </b-row>
-    <b-row
-      class="border-top mt-2"
-    >
-      <b-col>{{ $t('selectBlockFootnote') }}.</b-col>
+    <b-row class="border-top mt-2">
+      <b-col>{{ $t("selectBlockFootnote") }}.</b-col>
     </b-row>
   </b-container>
 </template>
@@ -127,6 +123,12 @@ export default {
           recordPageOnly: false,
           block: new compose.PageBlockComment(),
           image: images.Comment,
+        },
+        {
+          label: this.$t('custommodule.label'),
+          recordPageOnly: false,
+          block: new compose.PageBlockCustomModule(),
+          image: images.CustomModule,
         },
       ],
     }

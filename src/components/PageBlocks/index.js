@@ -26,6 +26,8 @@ import MetricBase from './MetricBase'
 import MetricConfigurator from './MetricConfigurator'
 import CommentBase from './CommentBase'
 import CommentConfigurator from './CommentConfigurator'
+import CustomModuleBase from './CustomModuleBase'
+import CustomModuleConfigurator from './CustomModuleConfigurator'
 
 /**
  * List of all known page block components
@@ -57,6 +59,8 @@ const Registry = {
   MetricConfigurator,
   CommentBase,
   CommentConfigurator,
+  CustomModuleBase,
+  CustomModuleConfigurator,
 }
 
 const defaultMode = 'Base'
